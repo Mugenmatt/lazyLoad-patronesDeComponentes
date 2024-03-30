@@ -9,7 +9,7 @@ import {
 import { routes } from './routes';
 import { Suspense } from 'react';
 
-{/* REDIRECCIONES A RUTAS */}
+// Sidebar: Rutas con suspense (lazy load)
 function Root () {
     return (
         // Suspense sirve para decirle a React que cuando cargo un componente 
@@ -20,15 +20,16 @@ function Root () {
             <div className="main-layout">
                 <nav>
                     <img src={logo} alt="React log" />
+                    {/* Itera el la variable del archivo routes */}
                     <ul>
                     {
-                        routes.map(route => (
-                            <li>
-                            <NavLink 
-                                to={route.to} className={({isActive}) => isActive ? "nav-active" : ""}   
-                            >
-                                {route.name}
-                            </NavLink>
+                        routes.map((route, idx) => (
+                            <li key={idx}>
+                                <NavLink 
+                                    to={route.to} className={({isActive}) => isActive ? "nav-active" : ""}   
+                                >
+                                    {route.name}
+                                </NavLink>
                             </li>
                         ))
                     }
@@ -46,7 +47,7 @@ const routesChildren = routes.map( route => (
     { path: route.path , element: <route.Component /> }
 ))
 
-{/* RUTAS DISPONIBLES */}
+// RUTAS DISPONIBLES
 const router = createBrowserRouter([
     {
         path: "/",
@@ -54,12 +55,12 @@ const router = createBrowserRouter([
         children: routesChildren
     },
     {
-        path: "/*",
+        path: "/*", // Si no coincide con una ruta existente en routesChildren, redirige a lazy1
         element: <Navigate to="/lazy1" replace={true} />
     }
 ]);
  
-{/* COMPONENTE QUE VA AL INDEX.TSX YA QUE ES EL CORE DE LA APP */}
+// COMPONENTE QUE VA AL INDEX.TSX YA QUE ES EL CORE DE LA APP
 export const Navigation = () => {
   return (
     <RouterProvider router={router} />
@@ -81,7 +82,7 @@ export const Navigation = () => {
 // import { LazyPage1, LazyPage2, LazyPage3 } from '../01-lazyload/pages/index';
 // import { routes } from './routes';
 
-{/* REDIRECCIONES A RUTAS */}
+// // REDIRECCIONES A RUTAS
 // function Root () {
 //     return (
 //  
@@ -119,7 +120,7 @@ export const Navigation = () => {
 //     )
 // }
 // 
-// {/* RUTAS DISPONIBLES */}
+//  // RUTAS DISPONIBLES 
 // const router = createBrowserRouter([
 //     {
 //         path: "/",
@@ -146,7 +147,7 @@ export const Navigation = () => {
 //     }
 // ]);
 //  
-// {/* COMPONENTE QUE VA AL INDEX.TSX YA QUE ES EL CORE DE LA APP */}
+// // COMPONENTE QUE VA AL INDEX.TSX YA QUE ES EL CORE DE LA APP
 // export const Navigation = () => {
 //   return (
 //     <RouterProvider router={router} />
